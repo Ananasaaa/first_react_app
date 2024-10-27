@@ -1,17 +1,16 @@
-export function ImageListWithCounter({ id, setCountObj, countObj }) {
-    function handleClick() {
-      const updatedCountObj = countObj.map((user) => {
-        if (user.id === id) {
-          return { ...user, count: user.count + 1 }; 
-        }
-        return user; 
-      });
-  
-      setCountObj(updatedCountObj);
-    }
+import React, { useCallback } from 'react';
+
+export const ImageListWithCounter = React.memo(function ImageListWithCounter({ id, setCountObj, countObj }) {
+    const handleClick = useCallback(() => {
+      setCountObj((prevCountObj) =>
+        prevCountObj.map((user) => 
+          user.id === id ? { ...user, count: user.count + 1 } : user
+        )
+      );
+    }, [id, setCountObj]);
 
     const user = countObj.find((user) => user.id === id);
-  
+
     return (
       <div className="col-3 text-center">
         <h1>{id}</h1>
@@ -19,5 +18,6 @@ export function ImageListWithCounter({ id, setCountObj, countObj }) {
         <button className="btn btn-primary" onClick={handleClick}>Click</button>
       </div>
     );
-  }
+});
+
   
